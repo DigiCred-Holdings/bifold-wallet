@@ -1,3 +1,4 @@
+//CredentialOffer.tsx
 import { AnonCredsCredentialMetadataKey } from '@credo-ts/anoncreds'
 import { CredentialPreviewAttribute } from '@credo-ts/core'
 import { useCredentialById } from '@credo-ts/react-hooks'
@@ -218,7 +219,15 @@ const CredentialOffer: React.FC<CredentialOfferProps> = ({ navigation, route }) 
       }
 
       toggleDeclineModalVisible()
-      navigation.getParent()?.navigate(TabStacks.HomeStack, { screen: Screens.Home })
+
+      // Navigate to the chat screen
+      if (credential?.connectionId) {
+        // Navigate directly to the Chat screen
+        navigation.getParent()?.navigate(Screens.Chat, { connectionId: credential.connectionId })
+      } else {
+        // Fallback to home screen if connectionId is not available
+        navigation.getParent()?.navigate(TabStacks.HomeStack, { screen: Screens.Home })
+      }
     } catch (err: unknown) {
       const error = new BifoldError(t('Error.Title1025'), t('Error.Message1025'), (err as Error)?.message ?? err, 1025)
       DeviceEventEmitter.emit(EventTypes.ERROR_ADDED, error)
