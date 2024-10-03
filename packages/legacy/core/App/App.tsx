@@ -1,11 +1,15 @@
+//App.tsx
 import AgentProvider from '@credo-ts/react-hooks'
 import * as React from 'react'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
+// eslint-disable-next-line import/order
 import { StatusBar } from 'react-native'
-import SplashScreen from 'react-native-splash-screen'
+
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Toast from 'react-native-toast-message'
 
 import { animatedComponents } from './animated-components'
+//import NFCHandler from './components/misc/NFCHandler'
 import ErrorModal from './components/modals/ErrorModal'
 import NetInfo from './components/network/NetInfo'
 import toastConfig from './components/toast/ToastConfig'
@@ -25,24 +29,17 @@ import { defaultConfiguration } from './defaultConfiguration'
 import { initLanguages, initStoredLanguage, translationResources } from './localization'
 import RootStack from './navigators/RootStack'
 import { theme } from './theme'
-//import { credentialOfferTourSteps, credentialsTourSteps, proofRequestTourSteps } from './index'
 
 initLanguages(translationResources)
 
-function App(sytem: Container) {
+function App(system: Container) {
   return () => {
     useMemo(() => {
       initStoredLanguage().then()
     }, [])
 
-    useEffect(() => {
-      // Hide the native splash / loading screen so that our
-      // RN version can be displayed.
-      SplashScreen.hide()
-    }, [])
-
     return (
-      <ContainerProvider value={sytem}>
+      <ContainerProvider value={system}>
         <StoreProvider>
           <AgentProvider agent={undefined}>
             <ThemeProvider value={theme}>
@@ -66,6 +63,7 @@ function App(sytem: Container) {
                         overlayColor={'gray'}
                         overlayOpacity={0.7}
                       >
+                        {/* <NFCHandler /> */}
                         <RootStack />
                       </TourProvider>
                       <Toast topOffset={15} config={toastConfig} />
@@ -80,4 +78,5 @@ function App(sytem: Container) {
     )
   }
 }
+
 export default App
